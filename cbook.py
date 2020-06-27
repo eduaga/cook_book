@@ -21,4 +21,20 @@ def recipe_from_file(cook_book_file):
     return cook_book
 
 
-pprint(recipe_from_file('cook_book.txt'))
+def get_shop_list_by_dishes(dishes, person_count):
+    shop_dict = {}
+    if set(dishes).issubset(cook_book):
+        for meal in dishes:
+            for recipe, ingredients in cook_book.items():
+                if recipe == meal:
+                    for ingredient in ingredients:
+                        if ingredient['ingredient_name'] in shop_dict:
+                            shop_dict[ingredient['ingredient_name']]['quantity'] += int(ingredient['quantity']) * person_count
+                        else:
+                            shop_dict[ingredient['ingredient_name']] = dict(measure=ingredient['measure'], quantity=int(ingredient['quantity'])*person_count)
+
+    return shop_dict
+
+recipe_from_file('cook_book.txt')
+pprint(get_shop_list_by_dishes(['Омлет', 'Фахитос'], 5))
+
